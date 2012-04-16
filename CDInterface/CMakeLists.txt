@@ -1,0 +1,1 @@
+install( FILES CDInterface.hpp DESTINATION include )
