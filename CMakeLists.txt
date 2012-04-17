@@ -10,3 +10,9 @@ add_subdirectory( CircleParameters )
 add_subdirectory( CDInterface )
 add_subdirectory( CircleDetector )
 add_subdirectory( LSCircDet )
+
+add_executable( main main.cpp )
+target_link_libraries( main
+                       CircleParameters
+                       CircleDetector
+                       LSCircDet )
