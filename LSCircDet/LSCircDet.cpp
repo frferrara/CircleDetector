@@ -36,10 +36,10 @@ CircleParameters * LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 
 void LSCircDet::checkMatrixSize( const Eigen::MatrixXd & x ) {
 	if ( x.rows() != 2 && x.cols() != 2 )
-		throw std::runtime_error( "x.rows() != 2 || x.cols() != 2" );
+		throw std::runtime_error( "Exception: x.rows() != 2 && x.cols() != 2" );
 
 	if ( x.rows() < 3 && x.cols() < 3 )
-		throw std::runtime_error( "x.rows() < 3 || x.cols() < 3" );
+		throw std::runtime_error( "Exception: x.rows() < 3 && x.cols() < 3" );
 }
 
 void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
@@ -63,8 +63,8 @@ void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
 		n = x.cols();
 
 		for ( int i = 0; i < n; i++ ) {
-			double temp1 = x( 0, i ) * x( 0, i );
-			double temp2 = x( 1, i ) * x( 1, i );
+			temp1 = x( 0, i ) * x( 0, i );
+			temp2 = x( 1, i ) * x( 1, i );
 
 			A11 = A11 + temp1;
 			A12 = A12 + x( 0, i ) * x( 1, i );
@@ -80,8 +80,8 @@ void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
 		n = x.rows();
 
 		for ( int i = 0; i < n; i++ ) {
-			double temp1 = x( i, 0 ) * x( i, 0 );
-			double temp2 = x( i, 1 ) * x( i, 1 );
+			temp1 = x( i, 0 ) * x( i, 0 );
+			temp2 = x( i, 1 ) * x( i, 1 );
 
 			A11 = A11 + temp1;
 			A12 = A12 + x( i, 0 ) * x( i, 1 );

@@ -19,7 +19,7 @@ CircleParameters::CircleParameters( const Eigen::Vector2d & xC, \
 									double r ) {
 	try {
 		if ( r <= 0.0 )
-			throw std::runtime_error( "r <= 0.0" );
+			throw std::runtime_error( "Exception: r <= 0.0" );
 
 		this->xC = xC;
 		this->r = r;
@@ -44,5 +44,12 @@ void CircleParameters::set_xC( const Eigen::Vector2d & xC ) {
 }
 
 void CircleParameters::set_r( double r ) {
-	this->r = r;
+	try{
+		if ( r <= 0.0 )
+			throw ( std::runtime_error( "Exception: r <= 0.0" ) );
+
+		this->r = r;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	}
 }
