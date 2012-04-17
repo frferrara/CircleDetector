@@ -35,10 +35,10 @@ CircleParameters * LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 }
 
 void LSCircDet::checkMatrixSize( const Eigen::MatrixXd & x ) {
-	if ( x.rows() != 2 || x.cols() != 2 )
+	if ( x.rows() != 2 && x.cols() != 2 )
 		throw std::runtime_error( "x.rows() != 2 || x.cols() != 2" );
 
-	if ( x.rows() < 3 || x.cols() < 3 )
+	if ( x.rows() < 3 && x.cols() < 3 )
 		throw std::runtime_error( "x.rows() < 3 || x.cols() < 3" );
 }
 
