@@ -9,18 +9,29 @@
 #include "LSCircDet.hpp"
 
 
-CircleParameters LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
+LSCircDet::LSCircDet() {
+	detectedCircle = NULL;
+}
+
+LSCircDet::~LSCircDet() {
+	delete detectedCircle;
+}
+
+CircleParameters * LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 	try {
-		checkMatrixSize( x );
+		fillMat( x );
 
+		X = solveLS();
 
+		detectedCircle = new CircleParameters( \
+						Eigen::Vector2d( X( 0 ), X( 1 ) ),
+						std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) \
+						);
 	} catch ( std::runtime_error & e ) {
 		std::cout << std::endl << e.what() << std::endl;
-
-		return CircleParameters();
 	}
 
-	return CircleParameters();
+	return detectedCircle;
 }
 
 void LSCircDet::checkMatrixSize( const Eigen::MatrixXd & x ) {
@@ -32,6 +43,8 @@ void LSCircDet::checkMatrixSize( const Eigen::MatrixXd & x ) {
 }
 
 void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
+	checkMatrixSize( x );
+
 	double n;
 
 	double A11 = 0.0;
@@ -95,4 +108,43 @@ void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
 		 A31, A32, A33;
 
 	D << D1, D2, D3;
+}
+
+Eigen::Vector3d LSCircDet::solveLS( const double eps ) {
+	// Do a singular value decomposition of the matrix
+	Eigen::JacobiSVD< Eigen::Matrix3d, \
+		Eigen::FullPivHouseholderQRPreconditioner > svd( A, \
+		Eigen::ComputeFullU | Eigen::ComputeFullV );
+
+	// Set the tolerance
+	double tol = eps * std::max( ( int )A.rows (), ( int )A.cols () ) * \
+			svd.singularValues().maxCoeff();
+
+	// Put the singular values into a matrix
+	Eigen::Matrix3d sv = svd.singularValues().asDiagonal();
+
+	// Calculate the singular values according to the tolerance
+	for ( int i = 0; i < ( int )sv.cols(); i++ )
+	{
+		// If the singular values greater than the tolerance
+		if ( sv( i, i ) > tol )
+		{
+			// Take the inverse of the singular values and put it back into the diagonal
+			sv(i, i) = 1.0 / sv(i, i);
+		}
+		else // else
+		{
+			// Set them to 0
+			sv(i, i) = 0.0;
+		}
+	}
+
+	// Calculate the pseudo inverse
+	Eigen::Matrix3d A_inv = svd.matrixV() * sv.transpose() * \
+			svd.matrixU().adjoint();
+
+	// Calculate X
+	Eigen::Vector3d X = A_inv * D;
+
+	return X;
 }

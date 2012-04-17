@@ -18,20 +18,25 @@
 
 class LSCircDet : public CDInterface {
 public:
-	LSCircDet() {}
+	LSCircDet();
 
-	~LSCircDet() {}
+	~LSCircDet();
 
-	CircleParameters detectCircle( const Eigen::MatrixXd & x );
+	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
 
 private:
 	void checkMatrixSize( const Eigen::MatrixXd & x );
 
 	void fillMat( const Eigen::MatrixXd & x );
 
+	Eigen::Vector3d solveLS( const double eps = \
+			std::numeric_limits< double >::epsilon() );
+
 	Eigen::Matrix3d A;
 
-	Eigen::Vector3d D;
+	Eigen::Vector3d D, X;
+
+	CircleParameters * detectedCircle;
 };
 
 
