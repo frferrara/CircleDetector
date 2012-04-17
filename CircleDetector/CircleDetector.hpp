@@ -21,7 +21,7 @@ public:
 
 	~CircleDetector();
 
-	CircleParameters detectCircle( const Eigen::MatrixXd & x );
+	CircleParameters * detectCircle( const Eigen::MatrixXd & x );
 
 private:
 	CDInterface * cdInterface;

@@ -21,6 +21,6 @@ CircleDetector::~CircleDetector() {
 	delete cdInterface;
 }
 
-CircleParameters CircleDetector::detectCircle( const Eigen::MatrixXd & x ) {
+CircleParameters * CircleDetector::detectCircle( const Eigen::MatrixXd & x ) {
 	return cdInterface->detectCircle( x );
 }

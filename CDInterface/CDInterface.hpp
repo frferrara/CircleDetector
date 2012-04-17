@@ -17,7 +17,7 @@ class CDInterface {
 public:
 	virtual ~CDInterface() {}
 
-	virtual CircleParameters detectCircle( const Eigen::MatrixXd & x ) = 0;
+	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x ) = 0;
 
 protected:
 	CDInterface() {}
