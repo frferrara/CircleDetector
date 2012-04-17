@@ -11,6 +11,8 @@
 
 CircleDetector::CircleDetector() {
 	cdInterface = NULL;
+
+	circleParameters = NULL;
 }
 
 CircleDetector::CircleDetector( CDInterface * cdInterface ) {
@@ -19,8 +21,18 @@ CircleDetector::CircleDetector( CDInterface * cdInterface ) {
 
 CircleDetector::~CircleDetector() {
 	delete cdInterface;
+
+	delete circleParameters;
 }
 
 CircleParameters * CircleDetector::detectCircle( const Eigen::MatrixXd & x ) {
-	return cdInterface->detectCircle( x );
+	try {
+		circleParameters = cdInterface->detectCircle( x );
+	} catch( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+
+		return new CircleParameters();
+	}
+
+	return circleParameters;
 }

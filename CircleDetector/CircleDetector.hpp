@@ -9,6 +9,7 @@
 #define CIRCLEDETECTOR_HPP_
 
 
+#include <stdexcept>
 #include "CDInterface.hpp"
 #include "CircleParameters.hpp"
 
@@ -25,6 +26,8 @@ public:
 
 private:
 	CDInterface * cdInterface;
+
+	CircleParameters * circleParameters;
 };
 
 
