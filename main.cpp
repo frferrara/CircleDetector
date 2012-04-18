@@ -14,7 +14,7 @@
 #include "CircleParameters.hpp"
 
 
-int main( int argc, char * argv[] ) {
+int main() {
 	std::cout << "Test of circle detection!" << std::endl;
 
 	// Create a set of circle points
