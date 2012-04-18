@@ -10,8 +10,12 @@
 
 
 #include <stdexcept>
+
 #include "CDInterface.hpp"
 #include "CircleParameters.hpp"
+
+#include "LSCircDet.hpp"
+#include "TBBLSCircDet.hpp"
 
 
 class CircleDetector {
