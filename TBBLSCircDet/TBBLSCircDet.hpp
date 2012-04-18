@@ -30,7 +30,6 @@ public:
 	TBBLSCircDet();
 
 	TBBLSCircDet( unsigned int n, \
-				  const std::vector< std::vector< unsigned int > > & blobContour, \
 				  gsl_histogram2d * hist_xC, \
 				  gsl_histogram * hist_r, \
 				  unsigned long long j );
@@ -39,7 +38,7 @@ public:
 
 	void operator()( const tbb::blocked_range< size_t > & r );
 
-	//virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
+	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
 
 private:
 	CircleParameters * detCirc( const Eigen::MatrixXd & x );
@@ -51,6 +50,8 @@ private:
 	Eigen::Vector3d solveLS( const double eps = \
 			std::numeric_limits< double >::epsilon() );
 
+	CircleParameters * getCircle();
+
 	Eigen::Matrix3d A;
 
 	Eigen::Vector3d D, X;
@@ -59,13 +60,12 @@ private:
 
 	unsigned int n;
 
-	std::vector< std::vector< unsigned int > > blobContour;
+	Eigen::MatrixXd blobContour;
 
 	gsl_histogram2d * hist_xC;
 	gsl_histogram * hist_r;
 
 	RandomNumberGenerator * rng;
-
 };
 
 

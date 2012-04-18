@@ -19,16 +19,12 @@ TBBLSCircDet::TBBLSCircDet() {
 }
 
 TBBLSCircDet::TBBLSCircDet( unsigned int n, \
-							const std::vector< std::vector< unsigned int > > & blobContour, \
 							gsl_histogram2d * hist_xC , \
 							gsl_histogram * hist_r, \
 							unsigned long long j ) {
 	try {
 		if ( n == 0 )
 			throw std::runtime_error( "Exception: n == 0" );
-
-		if ( blobContour.empty() )
-			throw std::runtime_error( "Exception: blobContour.empty() == true" );
 
 		if ( hist_xC->nx == 0 || hist_xC->ny == 0 )
 			throw std::runtime_error( "Exception: hist_xC->nx == 0 || hist_xC->ny == 0" );
@@ -41,8 +37,6 @@ TBBLSCircDet::TBBLSCircDet( unsigned int n, \
 
 	this->n = n;
 
-	this->blobContour = blobContour;
-
 	this->hist_xC = hist_xC;
 
 	this->hist_r = hist_r;
@@ -51,7 +45,7 @@ TBBLSCircDet::TBBLSCircDet( unsigned int n, \
 }
 
 TBBLSCircDet::~TBBLSCircDet() {
-	//delete detectedCircle;
+	delete detectedCircle;
 
 	delete hist_xC;
 	delete hist_r;
@@ -69,8 +63,8 @@ void TBBLSCircDet::operator()( const tbb::blocked_range< size_t > & r ) {
 		for ( int i = 0; i < n; i++ ) {
 			idx = ( unsigned int )round( rng->uniGen( 0.0, ( double )n ) );
 
-			x( i, 0 ) = ( double )blobContour[ idx ][ 0 ];
-			x( i, 1 ) = ( double )blobContour[ idx ][ 1 ];
+			x( i, 0 ) = blobContour( idx, 0 );
+			x( i, 1 ) = blobContour( idx, 1 );
 		}
 
 		CircleParameters * cP = detCirc( x );
@@ -79,6 +73,15 @@ void TBBLSCircDet::operator()( const tbb::blocked_range< size_t > & r ) {
 								   round( ( cP->get_xC() )( 1 ) ));
 		gsl_histogram_increment( hist_r, round( cP->get_r() ) );
 	}
+}
+
+CircleParameters * TBBLSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
+	blobContour.resizeLike( x );
+	blobContour = x;
+
+	( *this )();
+
+	return new CircleParameters;
 }
 
 CircleParameters * TBBLSCircDet::detCirc( const Eigen::MatrixXd & x ) {
@@ -211,4 +214,14 @@ Eigen::Vector3d TBBLSCircDet::solveLS( const double eps ) {
 	Eigen::Vector3d X = A_inv * D;
 
 	return X;
+}
+
+CircleParameters * TBBLSCircDet::getCircle() {
+	size_t x, y, r;
+
+	gsl_histogram2d_max_bin( hist_xC, &x, &y );
+	r = gsl_histogram_max_bin( hist_r );
+
+	return new CircleParameters( Eigen::Vector2d( ( double )x, ( double )y ), \
+								 ( double )r );
 }
