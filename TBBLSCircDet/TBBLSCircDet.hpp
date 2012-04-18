@@ -9,58 +9,37 @@
 #define TBBLSCIRCDET_HPP_
 
 
-#include <vector>
 #include <stdexcept>
 
-#include <gsl/gsl_histogram.h>
 #include <gsl/gsl_histogram2d.h>
-
-#include <tbb/parallel_for.h>
-#include <tbb/blocked_range.h>
+#include <gsl/gsl_histogram.h>
 
 #include <eigen3/Eigen/Eigen>
 
 #include <RandomNumberGenerator.hpp>
 
 #include "CDInterface.hpp"
+#include "ParallelCD.hpp"
 
 
 class TBBLSCircDet: public CDInterface {
 public:
 	TBBLSCircDet();
 
-	TBBLSCircDet( unsigned int n, \
+	TBBLSCircDet( unsigned int numPoints, \
 				  gsl_histogram2d * hist_xC, \
 				  gsl_histogram * hist_r, \
-				  unsigned long long j );
+				  unsigned long j, \
+				  unsigned int n );
 
 	~TBBLSCircDet();
-
-	void operator()( const tbb::blocked_range< size_t > & r );
 
 	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
 
 private:
-	CircleParameters * detCirc( const Eigen::MatrixXd & x );
-
-	void checkMatrixSize( const Eigen::MatrixXd & x );
-
-	void fillMat( const Eigen::MatrixXd & x );
-
-	Eigen::Vector3d solveLS( const double eps = \
-			std::numeric_limits< double >::epsilon() );
-
-	CircleParameters * getCircle();
-
-	Eigen::Matrix3d A;
-
-	Eigen::Vector3d D, X;
-
 	CircleParameters * detectedCircle;
 
-	unsigned int n;
-
-	Eigen::MatrixXd blobContour;
+	unsigned int numPoints, n;
 
 	gsl_histogram2d * hist_xC;
 	gsl_histogram * hist_r;
