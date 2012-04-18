@@ -2,6 +2,8 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( CircleDetector )
 
+set( CMAKE_CXX_FLAGS "-Wall -Wextra -g" )
+
 include_directories( /opt/local/include
                      ${PROJECT_SOURCE_DIR}/CircleParameters
                      ${PROJECT_SOURCE_DIR}/CDInterface
