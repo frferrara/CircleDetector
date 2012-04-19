@@ -24,8 +24,8 @@ TBBLSCircDet::TBBLSCircDet( unsigned int numPoints, \
 							unsigned long j, \
 							unsigned int n ) {
 	try {
-		if ( numPoints == 0 )
-			throw std::runtime_error( "Exception: numPoints == 0" );
+		if ( numPoints < 3 )
+			throw std::runtime_error( "Exception: numPoints < 3" );
 
 		this->numPoints = numPoints;
 
@@ -33,9 +33,6 @@ TBBLSCircDet::TBBLSCircDet( unsigned int numPoints, \
 			throw std::runtime_error( "Exception: hist_xC->nx == 0 || hist_xC->ny == 0" );
 
 		this->hist_xC = hist_xC;
-
-		if ( hist_r->n == 0 )
-			throw std::runtime_error( "Exception: hist_r->n == 0" );
 
 		this->hist_r = hist_r;
 
