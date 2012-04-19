@@ -27,19 +27,19 @@ public:
 	ParallelCD();
 
 	ParallelCD( unsigned int numPoints, \
-				const Eigen::MatrixXd & blobContour, \
+				const Eigen::MatrixXd & x, \
 				gsl_histogram2d * hist_xC, \
 				gsl_histogram * hist_r, \
 				RandomNumberGenerator * rng );
 
-	~ParallelCD();
+	~ParallelCD() {}
 
 	void operator()( const tbb::blocked_range< size_t > & r ) const;
 
 private:
 	unsigned int numPoints;
 
-	Eigen::MatrixXd blobContour;
+	Eigen::MatrixXd x;
 
 	gsl_histogram2d * hist_xC;
 	gsl_histogram * hist_r;

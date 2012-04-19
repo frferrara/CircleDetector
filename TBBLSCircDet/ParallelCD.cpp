@@ -22,13 +22,13 @@ ParallelCD::ParallelCD() {
 }
 
 ParallelCD::ParallelCD( unsigned int numPoints, \
-						const Eigen::MatrixXd & blobContour, \
+						const Eigen::MatrixXd & x, \
 						gsl_histogram2d * hist_xC, \
 						gsl_histogram * hist_r, \
 						RandomNumberGenerator * rng ) {
 	this->numPoints = numPoints;
 
-	this->blobContour = blobContour;
+	this->x = x;
 
 	this->hist_xC = hist_xC;
 	this->hist_r = hist_r;
@@ -36,12 +36,6 @@ ParallelCD::ParallelCD( unsigned int numPoints, \
 	this->rng = rng;
 
 	lsCircDet = new LSCircDet();
-}
-
-ParallelCD::~ParallelCD() {
-	delete rng;
-
-	delete lsCircDet;
 }
 
 void ParallelCD::operator()( const tbb::blocked_range<size_t> & r )  const {
@@ -54,11 +48,17 @@ void ParallelCD::operator()( const tbb::blocked_range<size_t> & r )  const {
 		for ( unsigned int i = 0; i < numPoints; i++ ) {
 			idx = ( unsigned int )round( rng->uniGen( 0.0, ( double )numPoints ) );
 
-			x( i, 0 ) = blobContour( idx, 0 );
-			x( i, 1 ) = blobContour( idx, 1 );
+			x( i, 0 ) = this->x( idx, 0 );
+			x( i, 1 ) = this->x( idx, 1 );
 		}
 
-		CircleParameters * cP = lsCircDet->detectCircle( x );
+		CircleParameters * cP = NULL;
+
+		try {
+			cP = lsCircDet->detectCircle( x );
+		} catch ( std::runtime_error & e ) {
+			throw;
+		}
 
 		gsl_histogram2d_increment( hist_xC, round( ( cP->get_xC() )( 0 ) ), \
 								   round( ( cP->get_xC() )( 1 ) ));

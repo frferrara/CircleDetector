@@ -37,6 +37,8 @@ public:
 	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
 
 private:
+	Eigen::MatrixXd checkMatrixSize( const Eigen::MatrixXd & x );
+
 	CircleParameters * detectedCircle;
 
 	unsigned int numPoints, n;
