@@ -189,7 +189,7 @@ int main() {
 																0.0, 10.0 );
 	gsl_histogram * hist_r = gsl_histogram_calloc_uniform( 10, 0.0, 10.0 );
 
-	unsigned int j = 27, n_ = 100000, numPoints = 5;
+	unsigned int j = 27, n_ = 100, numPoints = 5;
 
 	n = round( 2 * M_PI / dphi ) + 1;
 	x.resize( n, 2 );
@@ -253,6 +253,19 @@ int main() {
 
 	free( circleParameters );
 	circleParameters = new CircleParameters;
+
+	unsigned int l = 5;
+	//hist_xC = new gsl_histogram2d;
+	//n_ = 0;
+
+	try {
+		circleDetector = new CircleDetector( \
+				new TBBLSCircDet( l, hist_xC, hist_r, j, n_ ) );
+
+		circleDetector->detectCircle( x );
+		} catch ( std::runtime_error & e ) {
+			std::cout << std::endl << e.what() << std::endl;
+		}
 
 	return 0.0;
 }
