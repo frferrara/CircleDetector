@@ -2,7 +2,10 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( CircleDetector )
 
-set( CMAKE_CXX_FLAGS "-Wall -Wextra -g" )
+set( CMAKE_BUILD_TYPE "Debug" )
+
+set( CMAKE_CXX_FLAGS_DEBUG "-W -Wextra -g" )
+set( CMAKE_CXX_FLAGS_RELEASE "" )
 
 include_directories( /opt/local/include
                      ${PROJECT_SOURCE_DIR}/CircleParameters
@@ -20,4 +23,6 @@ add_executable( main main.cpp )
 target_link_libraries( main
                        CircleParameters
                        CircleDetector
-                       LSCircDet )
+                       LSCircDet
+                       TBBLSCircDet
+                       /opt/local/lib/libgsl.dylib )
