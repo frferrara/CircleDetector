@@ -20,7 +20,7 @@ class LSCircDet : public CDInterface {
 public:
 	LSCircDet();
 
-	~LSCircDet();
+	virtual ~LSCircDet();
 
 	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
 
