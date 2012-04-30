@@ -15,7 +15,120 @@
 
 
 int main() {
-	std::cout << "Test of circle detection!\n";
+	std::cout << "Test of LSCircDet\n";
+
+	// Create a set of circle points
+	// Circle properties
+	double x0 = 2.0;
+	double y0 = 4.0;
+	double r = 2.0;
+
+	std::cout << "Original circle:\n" \
+			  << "x = " << x0 << ", y = " << y0 \
+			  << ", r  = " << r << std::endl;
+
+	// Generation of circle points
+	// Point distance
+	double dphi = 0.1;
+
+	// Preallocation
+	double n = round( 2 * M_PI / dphi ) + 1;
+	Eigen::MatrixXd x;
+	x.resize( n, 2 );
+	double phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	LSCircDet * lscd = new LSCircDet;
+
+	CircleParameters * cp = lscd->detectCircle( x );
+
+	std::cout << "Detected circle:\n" \
+			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+			  << ( cp->get_xC() )( 1 ) \
+			  << ", r  = " << cp->get_r() << std::endl;
+
+	// Preallocation
+	n = round( 2 * M_PI / dphi ) + 1;
+	x.resize( 2, n );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( 0, i ) = x0 + r * cos( phi );
+		x( 1, i ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	cp = lscd->detectCircle( x );
+
+	std::cout << "Detected circle:\n" \
+			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+			  << ( cp->get_xC() )( 1 ) \
+			  << ", r  = " << cp->get_r() << std::endl;
+
+	// Preallocation
+	n = 1;
+	x.resize( 2, n );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( 0, i ) = x0 + r * cos( phi );
+		x( 1, i ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	cp = lscd->detectCircle( x );
+
+	std::cout << "Detected circle:\n" \
+			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+			  << ( cp->get_xC() )( 1 ) \
+			  << ", r  = " << cp->get_r() << std::endl;
+
+	// Preallocation
+	n = 1;
+	x.resize( 5, n );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( 0, i ) = x0 + r * cos( phi );
+		x( 1, i ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	cp = lscd->detectCircle( x );
+
+	std::cout << "Detected circle:\n" \
+			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+			  << ( cp->get_xC() )( 1 ) \
+			  << ", r  = " << cp->get_r() << std::endl;
+
+	delete lscd;
+
+	/*std::cout << "Test of circle detection!\n";
 
 	// Create a set of circle points
 	// Circle properties
@@ -106,7 +219,7 @@ int main() {
 			  << ( circleParameters->get_xC() )( 1 ) \
 			  << ", r  = " << circleParameters->get_r() << std::endl;
 
-	/*free( circleParameters );
+	free( circleParameters );
 
 	n = 1;
 	x.resize( n, 2 );
@@ -266,7 +379,7 @@ int main() {
 			std::cout << std::endl << e.what() << std::endl;
 		}*/
 
-	delete circleDetector;
+	//delete circleDetector;
 
 	return 0.0;
 }
