@@ -27,6 +27,8 @@ CircleParameters * CircleDetector::detectCircle( const Eigen::MatrixXd & x ) {
 	try {
 		circleParameters = cdInterface->detectCircle( x );
 	} catch( std::runtime_error & e ) {
+		circleParameters = new CircleParameters;
+
 		std::cout << std::endl << e.what() << std::endl;
 	}
 
