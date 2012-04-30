@@ -23,14 +23,16 @@ CircleParameters * LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 
 		X = solveLS();
 
+		delete detectedCircle;
 		detectedCircle = new CircleParameters( \
 						Eigen::Vector2d( X( 0 ), X( 1 ) ),
 						std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) \
 						);
 	} catch ( std::runtime_error & e ) {
+		delete detectedCircle;
 		detectedCircle = new CircleParameters;
 
-		throw;
+		std::cout << std::endl << e.what() << std::endl;
 	}
 
 	return detectedCircle;
