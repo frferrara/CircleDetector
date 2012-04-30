@@ -24,7 +24,7 @@ int main() {
 	double r = 2.0;
 
 	std::cout << "Original circle:\n" \
-			  << "xC = " << x0 << ", yC = " << y0 \
+			  << "x = " << x0 << ", y = " << y0 \
 			  << ", r  = " << r << std::endl;
 
 	// Generation of circle points
@@ -58,7 +58,6 @@ int main() {
 			  << ", r  = " << circleParameters->get_r() << std::endl;
 
 	free( circleParameters );
-	circleParameters = new CircleParameters;
 
 	x.resize( 2, n );
 	phi = 0.0;
@@ -82,7 +81,6 @@ int main() {
 			  << ", r  = " << circleParameters->get_r() << std::endl;
 
 	free( circleParameters );
-	circleParameters = new CircleParameters;
 
 	n = 1;
 	x.resize( 2, n );
@@ -101,13 +99,14 @@ int main() {
 
 	circleParameters = circleDetector->detectCircle( x );
 
+	std::cout << circleParameters << std::endl;
+
 	std::cout << "Detected circle:\n" \
 			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
 			  << ( circleParameters->get_xC() )( 1 ) \
 			  << ", r  = " << circleParameters->get_r() << std::endl;
 
-	free( circleParameters );
-	circleParameters = new CircleParameters;
+	/*free( circleParameters );
 
 	n = 1;
 	x.resize( n, 2 );
@@ -265,7 +264,9 @@ int main() {
 		circleDetector->detectCircle( x );
 		} catch ( std::runtime_error & e ) {
 			std::cout << std::endl << e.what() << std::endl;
-		}
+		}*/
+
+	delete circleDetector;
 
 	return 0.0;
 }

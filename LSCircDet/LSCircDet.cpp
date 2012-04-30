@@ -28,6 +28,8 @@ CircleParameters * LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 						std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) \
 						);
 	} catch ( std::runtime_error & e ) {
+		detectedCircle = new CircleParameters;
+
 		throw;
 	}
 
