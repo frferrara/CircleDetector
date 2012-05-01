@@ -17,7 +17,6 @@ LSCircDet::~LSCircDet() {
 	delete detectedCircle;
 }
 
-//CircleParameters * LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 void LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 	try {
 		fillMat( x );
@@ -30,14 +29,8 @@ void LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 						std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) \
 						);
 	} catch ( std::runtime_error & e ) {
-		delete detectedCircle;
-		detectedCircle = new CircleParameters;
-
-		//std::cout << std::endl << e.what() << std::endl;
 		throw;
 	}
-
-	//return detectedCircle;
 }
 
 CircleParameters * LSCircDet::getDetectedCircle() {
