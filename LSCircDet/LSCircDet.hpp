@@ -22,7 +22,10 @@ public:
 
 	virtual ~LSCircDet();
 
-	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
+	//virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
+	virtual void detectCircle( const Eigen::MatrixXd & x );
+
+	virtual CircleParameters * getDetectedCircle();
 
 private:
 	void checkMatrixSize( const Eigen::MatrixXd & x );
