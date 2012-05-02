@@ -48,8 +48,7 @@ private:
 
 	RandomNumberGenerator * rng;
 
-	//LSCircDet * lsCircDet;
-	boost::shared_ptr< LSCircDet > lsCircDet;
+	LSCircDet * lsCircDet;
 };
 
 
