@@ -596,7 +596,7 @@ int main() {
 		std::cout << "Unknown Exception!\n";
 	}
 
-	/*gsl_histogram2d * hist_xC = gsl_histogram2d_calloc_uniform( 10, 10, \
+	gsl_histogram2d * hist_xC = gsl_histogram2d_calloc_uniform( 10, 10, \
 			0.0, 10.0, 0.0, 10.0 );
 	gsl_histogram * hist_r = gsl_histogram_calloc_uniform( 10, 0.0, 10.0 );
 
@@ -624,7 +624,7 @@ int main() {
 
 		circleDetector->detectCircle( x );
 
-		/*cp = circleDetector->getDetectedCircle();
+		cp = circleDetector->getDetectedCircle();
 
 		std::cout << "Detected circle:\n" \
 				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
@@ -634,7 +634,7 @@ int main() {
 		std::cout << std::endl << e.what() << std::endl;
 	} catch ( ... ) {
 		std::cout << "Unknown Exception!\n";
-	}*/
+	}
 
 	/*x.resize( 2, n );
 	phi = 0.0;
