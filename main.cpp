@@ -131,6 +131,37 @@ int main() {
 
 	// Preallocation
 	n = 1;
+	x.resize( n, 2 );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		lscd->detectCircle( x );
+
+		cp = lscd->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = 1;
 	x.resize( 5, n );
 	phi = 0.0;
 
@@ -154,6 +185,225 @@ int main() {
 				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
 				  << ( cp->get_xC() )( 1 ) \
 				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = 1;
+	x.resize( n, 5 );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		lscd->detectCircle( x );
+
+		cp = lscd->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = round( 2 * M_PI / dphi ) + 1;
+	x.resize( n, 2 );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	CircleParameters * cp2 = NULL;
+
+	try {
+		cp2 = lscd->detectCircle2( x );
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp2->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp2->get_xC() )( 1 ) \
+				  << ", r  = " << cp2->get_r() << std::endl;
+
+		delete cp2;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = round( 2 * M_PI / dphi ) + 1;
+	x.resize( 2, n );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( 0, i ) = x0 + r * cos( phi );
+		x( 1, i ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		cp2 = lscd->detectCircle2( x );
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp2->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp2->get_xC() )( 1 ) \
+				  << ", r  = " << cp2->get_r() << std::endl;
+
+		delete cp2;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = 1;
+	x.resize( n, 2 );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		cp2 = lscd->detectCircle2( x );
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp2->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp2->get_xC() )( 1 ) \
+				  << ", r  = " << cp2->get_r() << std::endl;
+
+		delete cp2;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = 1;
+	x.resize( 2, n );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( 0, i ) = x0 + r * cos( phi );
+		x( 1, i ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		cp2 = lscd->detectCircle2( x );
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp2->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp2->get_xC() )( 1 ) \
+				  << ", r  = " << cp2->get_r() << std::endl;
+
+		delete cp2;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = 1;
+	x.resize( 5, n );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( 0, i ) = x0 + r * cos( phi );
+		x( 1, i ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		cp2 = lscd->detectCircle2( x );
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp2->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp2->get_xC() )( 1 ) \
+				  << ", r  = " << cp2->get_r() << std::endl;
+
+		delete cp2;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	// Preallocation
+	n = 1;
+	x.resize( n, 5 );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		cp2 = lscd->detectCircle2( x );
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp2->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp2->get_xC() )( 1 ) \
+				  << ", r  = " << cp2->get_r() << std::endl;
+
+		delete cp2;
 	} catch ( std::runtime_error & e ) {
 		std::cout << std::endl << e.what() << std::endl;
 	} catch ( ... ) {
@@ -346,7 +596,7 @@ int main() {
 		std::cout << "Unknown Exception!\n";
 	}
 
-	gsl_histogram2d * hist_xC = gsl_histogram2d_calloc_uniform( 10, 10, \
+	/*gsl_histogram2d * hist_xC = gsl_histogram2d_calloc_uniform( 10, 10, \
 			0.0, 10.0, 0.0, 10.0 );
 	gsl_histogram * hist_r = gsl_histogram_calloc_uniform( 10, 0.0, 10.0 );
 
@@ -379,12 +629,12 @@ int main() {
 		std::cout << "Detected circle:\n" \
 				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
 				  << ( cp->get_xC() )( 1 ) \
-				  << ", r  = " << cp->get_r() << std::endl;*/
+				  << ", r  = " << cp->get_r() << std::endl;
 	} catch ( std::runtime_error & e ) {
 		std::cout << std::endl << e.what() << std::endl;
 	} catch ( ... ) {
 		std::cout << "Unknown Exception!\n";
-	}
+	}*/
 
 	/*x.resize( 2, n );
 	phi = 0.0;
@@ -436,6 +686,6 @@ int main() {
 	//gsl_histogram2d_free( hist_xC );
 	//gsl_histogram_free( hist_r );
 
-	return 0.0;
+	return 0;
 }
 
