@@ -44,13 +44,12 @@ TBBLSCircDet::TBBLSCircDet( unsigned int numPoints, \
 	this->n = n;
 
 	rng = new RandomNumberGenerator( new Ran64( j ) );
+
+	detectedCircle = NULL;
 }
 
 TBBLSCircDet::~TBBLSCircDet() {
 	delete detectedCircle;
-
-	gsl_histogram2d_free( hist_xC );
-	gsl_histogram_free( hist_r );
 
 	delete rng;
 }
