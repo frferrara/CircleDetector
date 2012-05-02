@@ -50,12 +50,22 @@ int main() {
 
 	LSCircDet * lscd = new LSCircDet;
 
-	CircleParameters * cp = lscd->detectCircle( x );
+	CircleParameters * cp = NULL;
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
-			  << ( cp->get_xC() )( 1 ) \
-			  << ", r  = " << cp->get_r() << std::endl;
+	try {
+		lscd->detectCircle( x );
+
+		cp = lscd->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	// Preallocation
 	n = round( 2 * M_PI / dphi ) + 1;
@@ -73,12 +83,20 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	cp = lscd->detectCircle( x );
+	try {
+		lscd->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
-			  << ( cp->get_xC() )( 1 ) \
-			  << ", r  = " << cp->get_r() << std::endl;
+		cp = lscd->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	// Preallocation
 	n = 1;
@@ -96,12 +114,20 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	cp = lscd->detectCircle( x );
+	try {
+		lscd->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
-			  << ( cp->get_xC() )( 1 ) \
-			  << ", r  = " << cp->get_r() << std::endl;
+		cp = lscd->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	// Preallocation
 	n = 1;
@@ -119,36 +145,29 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	cp = lscd->detectCircle( x );
+	try {
+		lscd->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
-			  << ( cp->get_xC() )( 1 ) \
-			  << ", r  = " << cp->get_r() << std::endl;
+		cp = lscd->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	delete lscd;
 
-	/*std::cout << "Test of circle detection!\n";
-
-	// Create a set of circle points
-	// Circle properties
-	double x0 = 2.0;
-	double y0 = 4.0;
-	double r = 2.0;
-
-	std::cout << "Original circle:\n" \
-			  << "x = " << x0 << ", y = " << y0 \
-			  << ", r  = " << r << std::endl;
-
-	// Generation of circle points
-	// Point distance
-	double dphi = 0.1;
+	std::cout << "Test of CircleDetector!\n";
 
 	// Preallocation
-	double n = round( 2 * M_PI / dphi ) + 1;
-	Eigen::MatrixXd x;
+	n = round( 2 * M_PI / dphi ) + 1;
 	x.resize( n, 2 );
-	double phi = 0.0;
+	phi = 0.0;
 
 	// Generation
 	for ( int i = 0; i < n; i++ )
@@ -163,14 +182,20 @@ int main() {
 
 	CircleDetector * circleDetector = new CircleDetector( new LSCircDet );
 
-	CircleParameters * circleParameters = circleDetector->detectCircle( x );
+	try {
+		circleDetector->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
+		cp = circleDetector->getDetectedCircle();
 
-	free( circleParameters );
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	x.resize( 2, n );
 	phi = 0.0;
@@ -186,14 +211,20 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	circleParameters = circleDetector->detectCircle( x );
+	try {
+		circleDetector->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
+		cp = circleDetector->getDetectedCircle();
 
-	free( circleParameters );
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	n = 1;
 	x.resize( 2, n );
@@ -210,16 +241,20 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	circleParameters = circleDetector->detectCircle( x );
+	try {
+		circleDetector->detectCircle( x );
 
-	std::cout << circleParameters << std::endl;
+		cp = circleDetector->getDetectedCircle();
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
-
-	free( circleParameters );
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	n = 1;
 	x.resize( n, 2 );
@@ -236,15 +271,20 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	circleParameters = circleDetector->detectCircle( x );
+	try {
+		circleDetector->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
+		cp = circleDetector->getDetectedCircle();
 
-	free( circleParameters );
-	circleParameters = new CircleParameters;
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	n = 4;
 	x.resize( n, 3 );
@@ -261,15 +301,20 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	circleParameters = circleDetector->detectCircle( x );
+	try {
+		circleDetector->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
+		cp = circleDetector->getDetectedCircle();
 
-	free( circleParameters );
-	circleParameters = new CircleParameters;
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	n = 4;
 	x.resize( 3, n );
@@ -286,19 +331,23 @@ int main() {
 		phi = phi + dphi;
 	}
 
-	circleParameters = circleDetector->detectCircle( x );
+	try {
+		circleDetector->detectCircle( x );
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
+		cp = circleDetector->getDetectedCircle();
 
-	free( circleParameters );
-	circleParameters = new CircleParameters;
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
 
 	gsl_histogram2d * hist_xC = gsl_histogram2d_calloc_uniform( 10, 10, \
-																0.0, 10.0, \
-																0.0, 10.0 );
+			0.0, 10.0, 0.0, 10.0 );
 	gsl_histogram * hist_r = gsl_histogram_calloc_uniform( 10, 0.0, 10.0 );
 
 	unsigned int j = 27, n_ = 100, numPoints = 5;
@@ -319,23 +368,25 @@ int main() {
 	}
 
 	try {
+		delete circleDetector;
 		circleDetector = new CircleDetector( \
 				new TBBLSCircDet( 5, hist_xC, hist_r, j, n_ ) );
 
-		circleParameters = circleDetector->detectCircle( x );
+		circleDetector->detectCircle( x );
+
+		/*cp = circleDetector->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;*/
 	} catch ( std::runtime_error & e ) {
 		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
 	}
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
-
-	free( circleParameters );
-	circleParameters = new CircleParameters;
-
-	x.resize( 2, n );
+	/*x.resize( 2, n );
 	phi = 0.0;
 
 	// Generation
@@ -379,7 +430,11 @@ int main() {
 			std::cout << std::endl << e.what() << std::endl;
 		}*/
 
-	//delete circleDetector;
+	delete circleDetector;
+	//delete cp;
+
+	//gsl_histogram2d_free( hist_xC );
+	//gsl_histogram_free( hist_r );
 
 	return 0.0;
 }
