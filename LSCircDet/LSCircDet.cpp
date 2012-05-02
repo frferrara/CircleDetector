@@ -10,6 +10,11 @@
 
 
 LSCircDet::LSCircDet() {
+	A = Eigen::Matrix3d::Zero();
+
+	D = Eigen::Vector3d::Zero();
+	X = Eigen::Vector3d::Zero();
+
 	detectedCircle = NULL;
 }
 
@@ -25,12 +30,29 @@ void LSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 
 		delete detectedCircle;
 		detectedCircle = new CircleParameters( \
-						Eigen::Vector2d( X( 0 ), X( 1 ) ),
-						std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) \
-						);
+				Eigen::Vector2d( X( 0 ), X( 1 ) ),
+				std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) );
 	} catch ( std::runtime_error & e ) {
 		throw;
 	}
+}
+
+CircleParameters * LSCircDet::detectCircle2( const Eigen::MatrixXd & x ) {
+	Eigen::Matrix3d A;
+	Eigen::Vector3d D, X;
+
+	try {
+		fillMat( x, A, D );
+
+		X = solveLS( A, D );
+	} catch ( std::runtime_error & e ) {
+		throw;
+	}
+	CircleParameters * detectedCircle = new CircleParameters( \
+			Eigen::Vector2d( X( 0 ), X( 1 ) ),
+			std::sqrt( X( 0 ) * X( 0 ) + X( 1 ) * X( 1 ) - X( 2 ) ) );
+
+	return detectedCircle;
 }
 
 CircleParameters * LSCircDet::getDetectedCircle() {
@@ -45,7 +67,9 @@ void LSCircDet::checkMatrixSize( const Eigen::MatrixXd & x ) {
 		throw std::runtime_error( "Exception: x.rows() < 3 && x.cols() < 3" );
 }
 
-void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
+void LSCircDet::fillMat( const Eigen::MatrixXd & x, \
+						 Eigen::Matrix3d & A, \
+						 Eigen::Vector3d & D ) {
 	checkMatrixSize( x );
 
 	double n;
@@ -113,7 +137,19 @@ void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
 	D << D1, D2, D3;
 }
 
-Eigen::Vector3d LSCircDet::solveLS( const double eps ) {
+void LSCircDet::fillMat( const Eigen::MatrixXd & x ) {
+	fillMat( x, A, D );
+}
+
+Eigen::Vector3d LSCircDet::solveLS( const Eigen::Matrix3d & A, \
+									const Eigen::Vector3d & D, \
+									const double eps ) {
+	if ( A == Eigen::Matrix3d::Zero() )
+		throw std::runtime_error( "A == Eigen::Matrix3d::Zero()" );
+
+	if ( D == Eigen::Vector3d::Zero() )
+		throw std::runtime_error( "D == Eigen::Vector3d::Zero()" );
+
 	// Do a singular value decomposition of the matrix
 	Eigen::JacobiSVD< Eigen::Matrix3d, \
 		Eigen::FullPivHouseholderQRPreconditioner > svd( A, \
@@ -150,4 +186,8 @@ Eigen::Vector3d LSCircDet::solveLS( const double eps ) {
 	Eigen::Vector3d X = A_inv * D;
 
 	return X;
+}
+
+Eigen::Vector3d LSCircDet::solveLS( const double eps ) {
+	return solveLS( A, D, eps );
 }

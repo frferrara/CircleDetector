@@ -24,12 +24,23 @@ public:
 
 	virtual void detectCircle( const Eigen::MatrixXd & x );
 
+	CircleParameters * detectCircle2( const Eigen::MatrixXd & x );
+
 	virtual CircleParameters * getDetectedCircle();
 
 private:
 	void checkMatrixSize( const Eigen::MatrixXd & x );
 
+	void fillMat( const Eigen::MatrixXd & x, \
+				  Eigen::Matrix3d & A, \
+				  Eigen::Vector3d & D );
+
 	void fillMat( const Eigen::MatrixXd & x );
+
+	Eigen::Vector3d solveLS( const Eigen::Matrix3d & A, \
+							 const Eigen::Vector3d & D, \
+							 const double eps = \
+								 std::numeric_limits< double >::epsilon() );
 
 	Eigen::Vector3d solveLS( const double eps = \
 			std::numeric_limits< double >::epsilon() );
