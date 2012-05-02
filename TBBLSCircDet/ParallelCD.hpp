@@ -17,6 +17,8 @@
 #include <gsl/gsl_histogram2d.h>
 #include <gsl/gsl_histogram.h>
 
+#include <boost/shared_ptr.hpp>
+
 #include <RandomNumberGenerator.hpp>
 
 #include "LSCircDet.hpp"
@@ -46,7 +48,8 @@ private:
 
 	RandomNumberGenerator * rng;
 
-	LSCircDet * lsCircDet;
+	//LSCircDet * lsCircDet;
+	boost::shared_ptr< LSCircDet > lsCircDet;
 };
 
 

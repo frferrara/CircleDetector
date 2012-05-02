@@ -48,22 +48,24 @@ TBBLSCircDet::TBBLSCircDet( unsigned int numPoints, \
 }
 
 TBBLSCircDet::~TBBLSCircDet() {
-	delete detectedCircle;
+	//delete detectedCircle;
 
-	delete hist_xC;
-	delete hist_r;
+	//delete hist_xC;
+	//delete hist_r;
+	gsl_histogram2d_free( hist_xC );
+	gsl_histogram_free( hist_r );
 
 	delete rng;
 }
 
-CircleParameters * TBBLSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
+void TBBLSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 	try {
 		Eigen::MatrixXd z = checkMatrixSize( x );
 
 		tbb::parallel_for( tbb::blocked_range< size_t >( 0, n ), \
 				ParallelCD( numPoints, z, hist_xC, hist_r, rng ) );
 
-		size_t x, y, r;
+		/*size_t x, y, r = 1;
 
 		gsl_histogram2d_max_bin( hist_xC, &x, &y );
 		r = gsl_histogram_max_bin( hist_r );
@@ -71,11 +73,13 @@ CircleParameters * TBBLSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
 		gsl_histogram2d_reset( hist_xC );
 		gsl_histogram_reset( hist_r );
 
-		detectedCircle = new CircleParameters( Eigen::Vector2d( x, y ), r );
+		detectedCircle = new CircleParameters( Eigen::Vector2d( x, y ), r );*/
 	} catch ( std::runtime_error & e ) {
 		throw;
 	}
+}
 
+CircleParameters * TBBLSCircDet::getDetectedCircle() {
 	return detectedCircle;
 }
 

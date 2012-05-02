@@ -34,7 +34,9 @@ public:
 
 	~TBBLSCircDet();
 
-	virtual CircleParameters * detectCircle( const Eigen::MatrixXd & x );
+	virtual void detectCircle( const Eigen::MatrixXd & x );
+
+	virtual CircleParameters * getDetectedCircle();
 
 private:
 	Eigen::MatrixXd checkMatrixSize( const Eigen::MatrixXd & x );

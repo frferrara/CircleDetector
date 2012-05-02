@@ -16,9 +16,9 @@ ParallelCD::ParallelCD() {
 	hist_xC = NULL;
 	hist_r = NULL;
 
-	rng = NULL;
+	//rng = NULL;
 
-	lsCircDet = NULL;
+	//lsCircDet = NULL;
 }
 
 ParallelCD::ParallelCD( unsigned int numPoints, \
@@ -35,7 +35,8 @@ ParallelCD::ParallelCD( unsigned int numPoints, \
 
 	this->rng = rng;
 
-	lsCircDet = new LSCircDet();
+	//lsCircDet = new LSCircDet();
+	lsCircDet = boost::shared_ptr< LSCircDet >( new LSCircDet() );
 }
 
 void ParallelCD::operator()( const tbb::blocked_range<size_t> & r )  const {
@@ -52,16 +53,16 @@ void ParallelCD::operator()( const tbb::blocked_range<size_t> & r )  const {
 			x( i, 1 ) = this->x( idx, 1 );
 		}
 
-		CircleParameters * cP = NULL;
-
 		try {
-			cP = lsCircDet->detectCircle( x );
+			lsCircDet->detectCircle( x );
+
+			/*CircleParameters * cP = lsCircDet->getDetectedCircle();
+
+			gsl_histogram2d_increment( hist_xC, round( ( cP->get_xC() )( 0 ) ), \
+					round( ( cP->get_xC() )( 1 ) ));
+			gsl_histogram_increment( hist_r, round( cP->get_r() ) );*/
 		} catch ( std::runtime_error & e ) {
 			throw;
 		}
-
-		gsl_histogram2d_increment( hist_xC, round( ( cP->get_xC() )( 0 ) ), \
-								   round( ( cP->get_xC() )( 1 ) ));
-		gsl_histogram_increment( hist_r, round( cP->get_r() ) );
 	}
 }
