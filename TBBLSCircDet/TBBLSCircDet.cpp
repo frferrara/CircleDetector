@@ -23,28 +23,27 @@ TBBLSCircDet::TBBLSCircDet( unsigned int numPoints, \
 							gsl_histogram * hist_r, \
 							unsigned long j, \
 							unsigned int n ) {
-	try {
-		if ( numPoints < 3 )
-			throw std::runtime_error( "Exception: numPoints < 3" );
+	if ( numPoints < 3 )
+		throw std::runtime_error( "Exception: numPoints < 3" );
 
-		this->numPoints = numPoints;
+	if ( hist_xC == NULL || hist_xC->nx == 0 || hist_xC->ny == 0 )
+		throw std::runtime_error( "Exception: hist_xC == NULL || hist_xC->nx == 0 || hist_xC->ny == 0" );
 
-		if ( hist_xC->nx == 0 || hist_xC->ny == 0 )
-			throw std::runtime_error( "Exception: hist_xC->nx == 0 || hist_xC->ny == 0" );
+	if ( hist_r == NULL || hist_r->n == 0 )
+		throw std::runtime_error( "Exception: hist_r == NULL || hist_r->n == 0" );
 
-		this->hist_xC = hist_xC;
+	if ( n == 0 )
+		throw std::runtime_error( "Exception: n == 0" );
 
-		this->hist_r = hist_r;
+	this->numPoints = numPoints;
 
-		if ( n == 0 )
-			throw std::runtime_error( "Exception: n == 0" );
+	this->hist_xC = hist_xC;
 
-		this->n = n;
+	this->hist_r = hist_r;
 
-		rng = new RandomNumberGenerator( new Ran64( j ) );
-	} catch ( std::runtime_error & e ) {
-		throw;
-	}
+	this->n = n;
+
+	rng = new RandomNumberGenerator( new Ran64( j ) );
 }
 
 TBBLSCircDet::~TBBLSCircDet() {
@@ -57,24 +56,29 @@ TBBLSCircDet::~TBBLSCircDet() {
 }
 
 void TBBLSCircDet::detectCircle( const Eigen::MatrixXd & x ) {
-	try {
-		Eigen::MatrixXd z = checkMatrixSize( x );
+	if ( hist_xC == NULL )
+		throw std::runtime_error( "hist_xC == NULL" );
 
-		tbb::parallel_for( tbb::blocked_range< size_t >( 0, n ), \
-				ParallelCD( numPoints, z, hist_xC, hist_r, rng ) );
+	if ( hist_r == NULL )
+		throw std::runtime_error( "hist_r == NULL" );
 
-		size_t x, y, r;
+	if ( rng == NULL )
+		throw std::runtime_error( "rng == NULL" );
 
-		gsl_histogram2d_max_bin( hist_xC, &x, &y );
-		r = gsl_histogram_max_bin( hist_r );
+	Eigen::MatrixXd z = checkMatrixSize( x );
 
-		gsl_histogram2d_reset( hist_xC );
-		gsl_histogram_reset( hist_r );
+	tbb::parallel_for( tbb::blocked_range< size_t >( 0, n ), \
+			ParallelCD( numPoints, z, hist_xC, hist_r, rng ) );
 
-		detectedCircle = new CircleParameters( Eigen::Vector2d( x, y ), r );
-	} catch ( std::runtime_error & e ) {
-		throw;
-	}
+	size_t x_, y_, r_;
+
+	gsl_histogram2d_max_bin( hist_xC, &x_, &y_ );
+	r_ = gsl_histogram_max_bin( hist_r );
+
+	gsl_histogram2d_reset( hist_xC );
+	gsl_histogram_reset( hist_r );
+
+	detectedCircle = new CircleParameters( Eigen::Vector2d( x_, y_ ), r_ );
 }
 
 CircleParameters * TBBLSCircDet::getDetectedCircle() {
