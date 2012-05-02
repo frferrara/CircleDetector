@@ -620,7 +620,7 @@ int main() {
 	try {
 		delete circleDetector;
 		circleDetector = new CircleDetector( \
-				new TBBLSCircDet( 5, hist_xC, hist_r, j, n_ ) );
+				new TBBLSCircDet( numPoints, hist_xC, hist_r, j, n_ ) );
 
 		circleDetector->detectCircle( x );
 
@@ -630,13 +630,15 @@ int main() {
 				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
 				  << ( cp->get_xC() )( 1 ) \
 				  << ", r  = " << cp->get_r() << std::endl;
+
+		delete circleDetector;
 	} catch ( std::runtime_error & e ) {
 		std::cout << std::endl << e.what() << std::endl;
 	} catch ( ... ) {
 		std::cout << "Unknown Exception!\n";
 	}
 
-	/*x.resize( 2, n );
+	x.resize( 2, n );
 	phi = 0.0;
 
 	// Generation
@@ -652,22 +654,58 @@ int main() {
 
 	try {
 		circleDetector = new CircleDetector( \
-				new TBBLSCircDet( 5, hist_xC, hist_r, j, n_ ) );
+				new TBBLSCircDet( numPoints, hist_xC, hist_r, j, n_ ) );
 
-		circleParameters = circleDetector->detectCircle( x );
+		circleDetector->detectCircle( x );
+
+		cp = circleDetector->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+
+		delete circleDetector;
 	} catch ( std::runtime_error & e ) {
 		std::cout << std::endl << e.what() << std::endl;
 	}
 
-	std::cout << "Detected circle:\n" \
-			  << "xC = " << ( circleParameters->get_xC() )( 0 ) << ", yC = " \
-			  << ( circleParameters->get_xC() )( 1 ) \
-			  << ", r  = " << circleParameters->get_r() << std::endl;
+	n = 1;
+	x.resize( n, 2 );
+	phi = 0.0;
 
-	free( circleParameters );
-	circleParameters = new CircleParameters;
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
 
-	unsigned int l = 5;
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	try {
+		circleDetector = new CircleDetector( \
+				new TBBLSCircDet( numPoints, hist_xC, hist_r, j, n_ ) );
+
+		circleDetector->detectCircle( x );
+
+		cp = circleDetector->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+
+		delete circleDetector;
+	} catch ( std::runtime_error & e ) {
+		cp = NULL;
+
+		std::cout << std::endl << e.what() << std::endl;
+	}
+
+	/*unsigned int l = 5;
 	//hist_xC = new gsl_histogram2d;
 	//n_ = 0;
 
