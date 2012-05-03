@@ -854,10 +854,52 @@ int main() {
 
 	try {
 		delete circleDetector;
-		/*circleDetector = new CircleDetector( \
-				new TBBLSCircDet( numPoints, hist_xC, hist_r, j, n_ ) );*/
 		circleDetector = new CircleDetector( \
 				new TBBLSCircDet( 2, hist_xC, hist_r, j, n_ ) );
+
+		circleDetector->detectCircle( x );
+
+		cp = circleDetector->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+
+		delete circleDetector;
+	} catch ( std::runtime_error & e ) {
+		delete circleDetector;
+
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	try {
+		circleDetector = new CircleDetector( \
+				new TBBLSCircDet( numPoints, NULL, hist_r, j, n_ ) );
+
+		circleDetector->detectCircle( x );
+
+		cp = circleDetector->getDetectedCircle();
+
+		std::cout << "Detected circle:\n" \
+				  << "xC = " << ( cp->get_xC() )( 0 ) << ", yC = " \
+				  << ( cp->get_xC() )( 1 ) \
+				  << ", r  = " << cp->get_r() << std::endl;
+
+		delete circleDetector;
+	} catch ( std::runtime_error & e ) {
+		delete circleDetector;
+
+		std::cout << std::endl << e.what() << std::endl;
+	} catch ( ... ) {
+		std::cout << "Unknown Exception!\n";
+	}
+
+	try {
+		circleDetector = new CircleDetector( \
+				new TBBLSCircDet( numPoints, hist_xC, NULL, j, n_ ) );
 
 		circleDetector->detectCircle( x );
 
