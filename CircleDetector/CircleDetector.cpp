@@ -25,6 +25,9 @@ CircleDetector::~CircleDetector() {
 
 void CircleDetector::detectCircle( const Eigen::MatrixXd & x ) {
 	try {
+		if ( cdInterface == NULL )
+			throw std::runtime_error( "cdInterface == NULL" );
+
 		cdInterface->detectCircle( x );
 
 		detectedCircle = cdInterface->getDetectedCircle();
