@@ -873,8 +873,6 @@ int main() {
 		delete circleDetector;
 
 		std::cout << std::endl << e.what() << std::endl;
-	} catch ( ConstructionException & e ) {
-		std::cout << std::endl << e.what() << std::endl;
 	} catch ( ... ) {
 		std::cout << "Unknown Exception!\n";
 	}

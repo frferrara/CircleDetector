@@ -22,30 +22,41 @@ TBBLSCircDet::TBBLSCircDet( unsigned int numPoints, \
 							gsl_histogram2d * hist_xC , \
 							gsl_histogram * hist_r, \
 							unsigned long j, \
-							unsigned int n ) throw( ConstructionException ) {
-	if ( numPoints < 3 )
-		throw ConstructionException( "Exception: numPoints < 3" );
+							unsigned int n ) {
+	try {
+		if ( numPoints < 3 )
+			throw std::runtime_error( "Exception: numPoints < 3" );
 
-	if ( hist_xC == NULL || hist_xC->nx == 0 || hist_xC->ny == 0 )
-		throw ConstructionException( "Exception: hist_xC == NULL || hist_xC->nx == 0 || hist_xC->ny == 0" );
+		if ( hist_xC == NULL || hist_xC->nx == 0 || hist_xC->ny == 0 )
+			throw std::runtime_error( "Exception: hist_xC == NULL || hist_xC->nx == 0 || hist_xC->ny == 0" );
 
-	if ( hist_r == NULL || hist_r->n == 0 )
-		throw ConstructionException( "Exception: hist_r == NULL || hist_r->n == 0" );
+		if ( hist_r == NULL || hist_r->n == 0 )
+			throw std::runtime_error( "Exception: hist_r == NULL || hist_r->n == 0" );
 
-	if ( n == 0 )
-		throw ConstructionException( "Exception: n == 0" );
+		if ( n == 0 )
+			throw std::runtime_error( "Exception: n == 0" );
 
-	this->numPoints = numPoints;
+		this->numPoints = numPoints;
 
-	this->hist_xC = hist_xC;
+		this->hist_xC = hist_xC;
 
-	this->hist_r = hist_r;
+		this->hist_r = hist_r;
 
-	this->n = n;
+		this->n = n;
 
-	rng = new RandomNumberGenerator( new Ran64( j ) );
+		rng = new RandomNumberGenerator( new Ran64( j ) );
 
-	detectedCircle = NULL;
+		detectedCircle = NULL;
+	} catch ( std::runtime_error & e ) {
+		rng = NULL;
+
+		detectedCircle = NULL;
+
+		this->hist_xC = NULL;
+		this->hist_r = NULL;
+
+		std::cout << std::endl << e.what() << std::endl;
+	}
 }
 
 TBBLSCircDet::~TBBLSCircDet() {

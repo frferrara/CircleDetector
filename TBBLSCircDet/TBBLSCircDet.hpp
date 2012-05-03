@@ -17,7 +17,6 @@
 #include <eigen3/Eigen/Eigen>
 
 #include <RandomNumberGenerator.hpp>
-#include <ConstructionException.hpp>
 
 #include "CDInterface.hpp"
 #include "ParallelCD.hpp"
@@ -31,7 +30,7 @@ public:
 				  gsl_histogram2d * hist_xC, \
 				  gsl_histogram * hist_r, \
 				  unsigned long j, \
-				  unsigned int n ) throw( ConstructionException );
+				  unsigned int n );
 
 	~TBBLSCircDet();
 
