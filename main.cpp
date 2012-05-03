@@ -596,6 +596,31 @@ int main() {
 		std::cout << "Unknown Exception!\n";
 	}
 
+	n = round( 2 * M_PI / dphi ) + 1;
+	x.resize( n, 2 );
+	phi = 0.0;
+
+	// Generation
+	for ( int i = 0; i < n; i++ )
+	{
+		// Calculate the points
+		x( i, 0 ) = x0 + r * cos( phi );
+		x( i, 1 ) = y0 + r * sin( phi );
+
+		// Augment the angle
+		phi = phi + dphi;
+	}
+
+	circleDetector = new CircleDetector();
+
+	try {
+		circleDetector->detectCircle( x );
+	} catch ( std::runtime_error & e ) {
+		std::cout << std::endl << e.what() << std::endl;
+	}
+
+	/////////////////////////////////////
+
 	gsl_histogram2d * hist_xC = gsl_histogram2d_calloc_uniform( 10, 10, \
 			0.0, 10.0, 0.0, 10.0 );
 	gsl_histogram * hist_r = gsl_histogram_calloc_uniform( 10, 0.0, 10.0 );
@@ -813,24 +838,7 @@ int main() {
 		std::cout << std::endl << e.what() << std::endl;
 	}
 
-	/*unsigned int l = 5;
-	//hist_xC = new gsl_histogram2d;
-	//n_ = 0;
-
-	try {
-		circleDetector = new CircleDetector( \
-				new TBBLSCircDet( l, hist_xC, hist_r, j, n_ ) );
-
-		circleDetector->detectCircle( x );
-		} catch ( std::runtime_error & e ) {
-			std::cout << std::endl << e.what() << std::endl;
-		}*/
-
 	delete circleDetector;
-	//delete cp;
-
-	//gsl_histogram2d_free( hist_xC );
-	//gsl_histogram_free( hist_r );
 
 	return 0;
 }
