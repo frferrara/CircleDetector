@@ -46,7 +46,8 @@ void ParallelCD::operator()( const tbb::blocked_range<size_t> & r )  const {
 		unsigned int idx;
 
 		for ( unsigned int i = 0; i < numPoints; i++ ) {
-			idx = ( unsigned int )round( rng->uniGen( 0.0, ( double )numPoints ) );
+			idx = ( unsigned int )round( \
+					rng->uniGen( 0.0, ( double )numPoints - 1.0 ) );
 
 			x( i, 0 ) = this->x( idx, 0 );
 			x( i, 1 ) = this->x( idx, 1 );
